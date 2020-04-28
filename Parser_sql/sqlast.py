@@ -11,8 +11,8 @@ from antlr_ast.ast import (
 from antlr_ast.inputstream import CaseTransformInputStream
 from antlr_ast.marshalling import AstEncoder, get_decoder
 
-from sql_parser.sqlParser import sqlParser
-from sql_parser.sqlLexer import sqlLexer
+from Parser_sql.sql_parser.sqlParser import sqlParser
+from Parser_sql.sql_parser.sqlLexer import sqlLexer
 
 
 class Grammar:
@@ -40,7 +40,7 @@ class SelectNode(AliasNode):
     _fields_spec = ['columns', 'tables', 'where', 'group_by', 'having']
 
 class ExprNode(AliasNode):
-    _fields_spec = ['database_name', 'table_name', 'column_name', 'select_stmt']
+    _fields_spec = ['database_name', 'table_name', 'column_name', 'select_stmt', 'expr', 'literal_value']
 
 class Transformer(BaseNodeTransformer):
     def visit_Expr(self, node):

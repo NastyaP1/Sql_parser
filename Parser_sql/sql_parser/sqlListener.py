@@ -1,4 +1,4 @@
-# Generated from C:/Work/DTask/Pars\sql.g4 by ANTLR 4.8
+# Generated from C:/Users/1/Sql_parser/Parser_sql\sql.g4 by ANTLR 4.8
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .sqlParser import sqlParser
@@ -26,48 +26,12 @@ class sqlListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by sqlParser#compound_select.
-    def enterCompound_select(self, ctx:sqlParser.Compound_selectContext):
+    # Enter a parse tree produced by sqlParser#statement_node.
+    def enterStatement_node(self, ctx:sqlParser.Statement_nodeContext):
         pass
 
-    # Exit a parse tree produced by sqlParser#compound_select.
-    def exitCompound_select(self, ctx:sqlParser.Compound_selectContext):
-        pass
-
-
-    # Enter a parse tree produced by sqlParser#factored_select.
-    def enterFactored_select(self, ctx:sqlParser.Factored_selectContext):
-        pass
-
-    # Exit a parse tree produced by sqlParser#factored_select.
-    def exitFactored_select(self, ctx:sqlParser.Factored_selectContext):
-        pass
-
-
-    # Enter a parse tree produced by sqlParser#simple_select.
-    def enterSimple_select(self, ctx:sqlParser.Simple_selectContext):
-        pass
-
-    # Exit a parse tree produced by sqlParser#simple_select.
-    def exitSimple_select(self, ctx:sqlParser.Simple_selectContext):
-        pass
-
-
-    # Enter a parse tree produced by sqlParser#general_select.
-    def enterGeneral_select(self, ctx:sqlParser.General_selectContext):
-        pass
-
-    # Exit a parse tree produced by sqlParser#general_select.
-    def exitGeneral_select(self, ctx:sqlParser.General_selectContext):
-        pass
-
-
-    # Enter a parse tree produced by sqlParser#vacuum_statement.
-    def enterVacuum_statement(self, ctx:sqlParser.Vacuum_statementContext):
-        pass
-
-    # Exit a parse tree produced by sqlParser#vacuum_statement.
-    def exitVacuum_statement(self, ctx:sqlParser.Vacuum_statementContext):
+    # Exit a parse tree produced by sqlParser#statement_node.
+    def exitStatement_node(self, ctx:sqlParser.Statement_nodeContext):
         pass
 
 
@@ -122,6 +86,42 @@ class sqlListener(ParseTreeListener):
 
     # Exit a parse tree produced by sqlParser#vacuum_stmt.
     def exitVacuum_stmt(self, ctx:sqlParser.Vacuum_stmtContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#update_stmt.
+    def enterUpdate_stmt(self, ctx:sqlParser.Update_stmtContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#update_stmt.
+    def exitUpdate_stmt(self, ctx:sqlParser.Update_stmtContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#update_stmt_limited.
+    def enterUpdate_stmt_limited(self, ctx:sqlParser.Update_stmt_limitedContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#update_stmt_limited.
+    def exitUpdate_stmt_limited(self, ctx:sqlParser.Update_stmt_limitedContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#insert_stmt.
+    def enterInsert_stmt(self, ctx:sqlParser.Insert_stmtContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#insert_stmt.
+    def exitInsert_stmt(self, ctx:sqlParser.Insert_stmtContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#qualified_table_name.
+    def enterQualified_table_name(self, ctx:sqlParser.Qualified_table_nameContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#qualified_table_name.
+    def exitQualified_table_name(self, ctx:sqlParser.Qualified_table_nameContext):
         pass
 
 

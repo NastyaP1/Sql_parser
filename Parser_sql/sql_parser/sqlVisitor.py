@@ -1,4 +1,4 @@
-# Generated from C:/Work/DTask/Pars\sql.g4 by ANTLR 4.8
+# Generated from C:/Users/1/Sql_parser/Parser_sql\sql.g4 by ANTLR 4.8
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .sqlParser import sqlParser
@@ -19,28 +19,8 @@ class sqlVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by sqlParser#compound_select.
-    def visitCompound_select(self, ctx:sqlParser.Compound_selectContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by sqlParser#factored_select.
-    def visitFactored_select(self, ctx:sqlParser.Factored_selectContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by sqlParser#simple_select.
-    def visitSimple_select(self, ctx:sqlParser.Simple_selectContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by sqlParser#general_select.
-    def visitGeneral_select(self, ctx:sqlParser.General_selectContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by sqlParser#vacuum_statement.
-    def visitVacuum_statement(self, ctx:sqlParser.Vacuum_statementContext):
+    # Visit a parse tree produced by sqlParser#statement_node.
+    def visitStatement_node(self, ctx:sqlParser.Statement_nodeContext):
         return self.visitChildren(ctx)
 
 
@@ -71,6 +51,26 @@ class sqlVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by sqlParser#vacuum_stmt.
     def visitVacuum_stmt(self, ctx:sqlParser.Vacuum_stmtContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#update_stmt.
+    def visitUpdate_stmt(self, ctx:sqlParser.Update_stmtContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#update_stmt_limited.
+    def visitUpdate_stmt_limited(self, ctx:sqlParser.Update_stmt_limitedContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#insert_stmt.
+    def visitInsert_stmt(self, ctx:sqlParser.Insert_stmtContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#qualified_table_name.
+    def visitQualified_table_name(self, ctx:sqlParser.Qualified_table_nameContext):
         return self.visitChildren(ctx)
 
 

@@ -1,33 +1,3 @@
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014 by Bart Kiers
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- *
- * Project      : sqlite-parser; an ANTLR4 grammar for SQLite
- *                https://github.com/bkiers/sqlite-parser
- * Developed by : Bart Kiers, bart@big-o.nl
- */
 grammar sql;
 
 root
@@ -39,11 +9,14 @@ query_statements_list
  ;
 
 statement_node
- : compound_select_stmt       #compound_select
-    | factored_select_stmt    #factored_select
-    | simple_select_stmt      #simple_select
-    | select_stmt             #general_select
-    | vacuum_stmt             #vacuum_statement
+ : compound_select_stmt
+    | factored_select_stmt
+    | simple_select_stmt
+    | select_stmt
+    | vacuum_stmt
+    | update_stmt
+    | update_stmt_limited
+    | insert_stmt
   ;
 
 
@@ -86,6 +59,47 @@ select_or_values
 
 vacuum_stmt
  : K_VACUUM
+ ;
+
+update_stmt //
+ : with_clause? K_UPDATE ( K_OR K_ROLLBACK
+                         | K_OR K_ABORT
+                         | K_OR K_REPLACE
+                         | K_OR K_FAIL
+                         | K_OR K_IGNORE )? qualified_table_name
+   K_SET column_name '=' expr ( ',' column_name '=' expr )* ( K_WHERE expr )?
+ ;
+
+update_stmt_limited
+ : with_clause? K_UPDATE ( K_OR K_ROLLBACK
+                         | K_OR K_ABORT
+                         | K_OR K_REPLACE
+                         | K_OR K_FAIL
+                         | K_OR K_IGNORE )? qualified_table_name
+   K_SET column_name '=' expr ( ',' column_name '=' expr )* ( K_WHERE expr )?
+   ( ( K_ORDER K_BY ordering_term ( ',' ordering_term )* )?
+     K_LIMIT expr ( ( K_OFFSET | ',' ) expr )?
+   )?
+ ;
+
+insert_stmt
+ : with_clause? ( K_INSERT
+                | K_REPLACE
+                | K_INSERT K_OR K_REPLACE
+                | K_INSERT K_OR K_ROLLBACK
+                | K_INSERT K_OR K_ABORT
+                | K_INSERT K_OR K_FAIL
+                | K_INSERT K_OR K_IGNORE ) K_INTO
+   ( database_name '.' )? table_name ( '(' column_name ( ',' column_name )* ')' )?
+   ( K_VALUES '(' expr ( ',' expr )* ')' ( ',' '(' expr ( ',' expr )* ')' )*
+   | select_stmt
+   | K_DEFAULT K_VALUES
+   )
+ ;
+
+qualified_table_name //
+ : ( database_name '.' )? table_name ( K_INDEXED K_BY index_name
+                                     | K_NOT K_INDEXED )?
  ;
 
 expr
@@ -381,6 +395,7 @@ any_name
  | STRING_LITERAL
  | '(' any_name ')'
  ;
+
 
 SCOL : ';';
 DOT : '.';
