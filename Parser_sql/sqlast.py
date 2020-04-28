@@ -28,13 +28,11 @@ class Grammar:
 class RootQueryNode(AliasNode):
     _fields_spec = ['queries']
 
-
 class QueryNode(AliasNode):
     _fields_spec = ['query_statements']
 
 class FactoredStatementNode(AliasNode):
     _fields_spec = ['select_parts', 'operators']
-
 
 class SelectNode(AliasNode):
     _fields_spec = ['columns', 'tables', 'where', 'group_by', 'having']

@@ -89,15 +89,6 @@ class sqlListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by sqlParser#column_def.
-    def enterColumn_def(self, ctx:sqlParser.Column_defContext):
-        pass
-
-    # Exit a parse tree produced by sqlParser#column_def.
-    def exitColumn_def(self, ctx:sqlParser.Column_defContext):
-        pass
-
-
     # Enter a parse tree produced by sqlParser#type_name.
     def enterType_name(self, ctx:sqlParser.Type_nameContext):
         pass
@@ -158,15 +149,6 @@ class sqlListener(ParseTreeListener):
 
     # Exit a parse tree produced by sqlParser#select_or_values.
     def exitSelect_or_values(self, ctx:sqlParser.Select_or_valuesContext):
-        pass
-
-
-    # Enter a parse tree produced by sqlParser#vacuum_stmt.
-    def enterVacuum_stmt(self, ctx:sqlParser.Vacuum_stmtContext):
-        pass
-
-    # Exit a parse tree produced by sqlParser#vacuum_stmt.
-    def exitVacuum_stmt(self, ctx:sqlParser.Vacuum_stmtContext):
         pass
 
 
@@ -356,6 +338,15 @@ class sqlListener(ParseTreeListener):
 
     # Exit a parse tree produced by sqlParser#column_alias.
     def exitColumn_alias(self, ctx:sqlParser.Column_aliasContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#column_def.
+    def enterColumn_def(self, ctx:sqlParser.Column_defContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#column_def.
+    def exitColumn_def(self, ctx:sqlParser.Column_defContext):
         pass
 
 

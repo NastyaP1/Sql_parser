@@ -6,11 +6,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/Parser_sql/sql.g4" />
           <option name="autoGen" value="true" />
-<<<<<<< HEAD
           <option name="outputDir" value="$PROJECT_DIR$/Parser_sql/sql_parser" />
-=======
-          <option name="outputDir" value="C:\Users\1\Sql_parser\Parser_sql\sql_parser" />
->>>>>>> origin/master
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="" />
@@ -20,9 +16,5 @@
       </list>
     </option>
   </component>
-<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.7 (Pars)" project-jdk-type="Python SDK" />
-=======
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.7 (SQLparser)" project-jdk-type="Python SDK" />
->>>>>>> origin/master
 </project>

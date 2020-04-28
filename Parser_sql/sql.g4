@@ -1,20 +1,22 @@
-
+// grammar
 grammar sql;
 
+//full query
 root
  : ( queries+=query_statements_list )* EOF
  ;
 
+//combination of different queries
 query_statements_list
  : ';'* query_statements+=statement_node ( ';'+ query_statements+=statement_node )* ';'*
  ;
 
+//names of statements
 statement_node
- : compound_select_stmt
+ :    compound_select_stmt
     | factored_select_stmt
     | simple_select_stmt
     | select_stmt
-    | vacuum_stmt
     | create_index_stmt
     | create_table_stmt
     | reindex_stmt
@@ -23,19 +25,21 @@ statement_node
     | insert_stmt
   ;
 
+//change index statement
 reindex_stmt
  : K_REINDEX ( collation_name
              | ( database_name '.' )? ( table_name | index_name )
              )?
  ;
 
-
+//creation of index statement
 create_index_stmt
  : K_CREATE K_UNIQUE? K_INDEX ( K_IF K_NOT K_EXISTS )?
    ( database_name '.' )? index_name K_ON table_name '(' indexed_column ( ',' indexed_column )* ')'
    ( K_WHERE expr )?
  ;
 
+//creation of table statement
 create_table_stmt
  : K_CREATE ( K_TEMP | K_TEMPORARY )? K_TABLE ( K_IF K_NOT K_EXISTS )?
    ( database_name '.' )? table_name
@@ -44,7 +48,7 @@ create_table_stmt
    )
  ;
 
-
+//collumn of constratints
 column_constraint
  : ( K_CONSTRAINT name )?
    ( K_PRIMARY K_KEY ( K_ASC | K_DESC )? conflict_clause K_AUTOINCREMENT?
@@ -57,6 +61,7 @@ column_constraint
    )
  ;
 
+//foreign key clause
 foreign_key_clause
  : K_REFERENCES foreign_table ( '(' column_name ( ',' column_name )* ')' )?
    ( ( K_ON ( K_DELETE | K_UPDATE ) ( K_SET K_NULL
@@ -70,6 +75,7 @@ foreign_key_clause
    ( K_NOT? K_DEFERRABLE ( K_INITIALLY K_DEFERRED | K_INITIALLY K_IMMEDIATE )? )?
  ;
 
+//table with constraints
 table_constraint
  : ( K_CONSTRAINT name )?
    ( ( K_PRIMARY K_KEY | K_UNIQUE ) '(' indexed_column ( ',' indexed_column )* ')' conflict_clause
@@ -78,20 +84,19 @@ table_constraint
    )
  ;
 
-
-column_def
- : column_name type_name? column_constraint*
- ;
-
+//name of type (+/-)
 type_name
  : name+? ( '(' signed_number ')'
          | '(' signed_number ',' signed_number ')' )?
  ;
 
+//indexed(ordered) column
 indexed_column
  : column_name ( K_COLLATE collation_name )? ( K_ASC | K_DESC )?
  ;
 
+
+//multiple select statement-two or more simple selects
 compound_select_stmt
  : with_clause?
    select_core ( ( K_UNION K_ALL? | K_INTERSECT | K_EXCEPT ) select_core )+
@@ -99,7 +104,7 @@ compound_select_stmt
    ( K_LIMIT expr ( ( K_OFFSET | ',' ) expr )? )?
  ;
 
-
+//select statement with smaller chunks
 factored_select_stmt
  : with_clause?
    select_parts+=select_core ( operators+=compound_operator select_parts+=select_core )*
@@ -107,13 +112,16 @@ factored_select_stmt
    ( K_LIMIT expr ( ( K_OFFSET | ',' ) expr )? )?
  ;
 
-
+//common select statement;
+// includes FROM, WHERE, GROUP BY, HAVING AND DISTINCT clauses
 simple_select_stmt
  : with_clause?
    select_core ( K_ORDER K_BY ordering_term ( ',' ordering_term )* )?
    ( K_LIMIT expr ( ( K_OFFSET | ',' ) expr )? )?
  ;
 
+//select statement
+//wider interpretationof select statement
 select_stmt
  : with_clause?
    select_or_values ( compound_operator select_or_values )*
@@ -121,6 +129,7 @@ select_stmt
    ( K_LIMIT expr ( ( K_OFFSET | ',' ) expr )? )?
  ;
 
+//select query or select subquery
 select_or_values
  : K_SELECT ( K_DISTINCT | K_ALL )? result_column ( ',' result_column )*
    ( K_FROM ( table_or_subquery ( ',' table_or_subquery )* | join_clause ) )?
@@ -129,10 +138,7 @@ select_or_values
  | K_VALUES '(' expr ( ',' expr )* ')' ( ',' '(' expr ( ',' expr )* ')' )*
  ;
 
-vacuum_stmt
- : K_VACUUM
- ;
-
+//update table statement
 update_stmt //
  : with_clause? K_UPDATE ( K_OR K_ROLLBACK
                          | K_OR K_ABORT
@@ -142,6 +148,7 @@ update_stmt //
    K_SET column_name '=' expr ( ',' column_name '=' expr )* ( K_WHERE expr )?
  ;
 
+//update table statement with limit clause
 update_stmt_limited
  : with_clause? K_UPDATE ( K_OR K_ROLLBACK
                          | K_OR K_ABORT
@@ -154,6 +161,7 @@ update_stmt_limited
    )?
  ;
 
+//insert table statement
 insert_stmt
  : with_clause? ( K_INSERT
                 | K_REPLACE
@@ -169,11 +177,13 @@ insert_stmt
    )
  ;
 
+//indexed table
 qualified_table_name //
  : ( database_name '.' )? table_name ( K_INDEXED K_BY index_name
                                      | K_NOT K_INDEXED )?
  ;
 
+//expression - combinations of one or more values, operators and SQl functions, evaluated to a value
 expr
  : literal_value
  | BIND_PARAMETER
@@ -202,16 +212,17 @@ expr
  | K_CASE expr? ( K_WHEN expr K_THEN expr )+ ( K_ELSE expr )? K_END
  ;
 
-
+//optional prefix for select
 with_clause
  : K_WITH K_RECURSIVE? common_table_expression ( ',' common_table_expression )*
  ;
 
-  common_table_expression
- : table_name ( '(' column_name ( ',' column_name )* ')' )? K_AS '(' select_stmt ')'
- ;
+//common table expression
+common_table_expression
+: table_name ( '(' column_name ( ',' column_name )* ')' )? K_AS '(' select_stmt ')'
+;
 
-
+//presents order by clause
 ordering_term
  : expr ( K_COLLATE collation_name )? ( K_ASC | K_DESC )?
  ;
@@ -223,6 +234,7 @@ result_column
  | expr ( K_AS? column_alias )?
  ;
 
+//table or subquery
 table_or_subquery
  : ( schema_name '.' )? table_name ( K_AS? table_alias )?
    ( K_INDEXED K_BY index_name
@@ -234,29 +246,36 @@ table_or_subquery
  | '(' select_stmt ')' ( K_AS? table_alias )?
  ;
 
+//join clause
+//combines rows from two or more tables
 join_clause
  : table_or_subquery ( join_operator table_or_subquery join_constraint )*
  ;
 
+//type of join clause
 join_operator
  : ','
  | K_NATURAL? ( K_LEFT K_OUTER? | K_INNER | K_CROSS )? K_JOIN
  ;
 
+//specificstion of rules for data in a table
 join_constraint
  : ( K_ON expr
    | K_USING '(' column_name ( ',' column_name )* ')' )?
  ;
 
+//select core
+//used by compound select statement, factored select statement, simple select statement
 select_core
  : K_SELECT ( K_DISTINCT | K_ALL )? columns+=result_column ( ',' columns+=result_column )*
    ( K_FROM ( tables+=table_or_subquery ( ',' tables+=table_or_subquery )* | join=join_clause ) )?
    ( K_WHERE where=expr )?
    ( K_GROUP K_BY group_by+=expr ( ',' group_by+=expr )* ( K_HAVING having=expr )? )?
-// | K_VALUES '(' values+=expr ( ',' expr )* ')' ( ',' '(' expr ( ',' expr )* ')' )*
+   | K_VALUES '(' values+=expr ( ',' expr )* ')' ( ',' '(' expr ( ',' expr )* ')' )*
  ;
 
-
+//non-standart clause
+//specifies an algorythm used to resolve constraint conflicts
 conflict_clause
  : ( K_ON K_CONFLICT ( K_ROLLBACK
                      | K_ABORT
@@ -267,6 +286,7 @@ conflict_clause
    )?
  ;
 
+//compount operators
 compound_operator
  : K_UNION
  | K_UNION K_ALL
@@ -274,14 +294,17 @@ compound_operator
  | K_EXCEPT
  ;
 
+//foreign table
 foreign_table
  : any_name
  ;
 
+// + or -
 signed_number
  : ( '+' | '-' )? NUMERIC_LITERAL
  ;
 
+//literal values
 literal_value
  : NUMERIC_LITERAL
  | STRING_LITERAL
@@ -292,6 +315,7 @@ literal_value
  | K_CURRENT_TIMESTAMP
  ;
 
+//unary operator
 unary_operator
  : '-'
  | '+'
@@ -299,12 +323,19 @@ unary_operator
  | K_NOT
  ;
 
-
+//column alias
 column_alias
  : IDENTIFIER
  | STRING_LITERAL
  ;
 
+//column definition
+column_def
+ : column_name type_name? column_constraint*
+ ;
+
+//keywords
+//represent main keywords from sql-language
 keyword
  : K_ABORT
  | K_ACTION
@@ -432,7 +463,6 @@ keyword
  | K_WITHOUT
  ;
 
-// TODO check all names below
 
 name
  : any_name
@@ -483,7 +513,7 @@ any_name
  | '(' any_name ')'
  ;
 
-
+//sql operators
 SCOL : ';';
 DOT : '.';
 OPEN_PAR : '(';
@@ -509,7 +539,8 @@ EQ : '==';
 NOT_EQ1 : '!=';
 NOT_EQ2 : '<>';
 
-// http://www.sqlite.org/lang_keywords.html
+
+//keywords
 K_ABORT : A B O R T;
 K_ACTION : A C T I O N;
 K_ADD : A D D;

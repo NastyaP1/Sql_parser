@@ -54,11 +54,6 @@ class sqlVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by sqlParser#column_def.
-    def visitColumn_def(self, ctx:sqlParser.Column_defContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by sqlParser#type_name.
     def visitType_name(self, ctx:sqlParser.Type_nameContext):
         return self.visitChildren(ctx)
@@ -91,11 +86,6 @@ class sqlVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by sqlParser#select_or_values.
     def visitSelect_or_values(self, ctx:sqlParser.Select_or_valuesContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by sqlParser#vacuum_stmt.
-    def visitVacuum_stmt(self, ctx:sqlParser.Vacuum_stmtContext):
         return self.visitChildren(ctx)
 
 
@@ -201,6 +191,11 @@ class sqlVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by sqlParser#column_alias.
     def visitColumn_alias(self, ctx:sqlParser.Column_aliasContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#column_def.
+    def visitColumn_def(self, ctx:sqlParser.Column_defContext):
         return self.visitChildren(ctx)
 
 
