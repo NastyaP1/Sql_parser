@@ -1,4 +1,4 @@
-# Generated from /Users/anastasiapereslavceva/Sql_parser/Parser_sql/sql.g4 by ANTLR 4.8
+# Generated from C:/Users/�������������/Sql_parser/Parser_sql\sql.g4 by ANTLR 4.8
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .sqlParser import sqlParser
@@ -101,6 +101,26 @@ class sqlVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by sqlParser#insert_stmt.
     def visitInsert_stmt(self, ctx:sqlParser.Insert_stmtContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#drop_index_stmt.
+    def visitDrop_index_stmt(self, ctx:sqlParser.Drop_index_stmtContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#drop_table_stmt.
+    def visitDrop_table_stmt(self, ctx:sqlParser.Drop_table_stmtContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#delete_stmt.
+    def visitDelete_stmt(self, ctx:sqlParser.Delete_stmtContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#delete_stmt_limited.
+    def visitDelete_stmt_limited(self, ctx:sqlParser.Delete_stmt_limitedContext):
         return self.visitChildren(ctx)
 
 

@@ -1,4 +1,4 @@
-# Generated from /Users/anastasiapereslavceva/Sql_parser/Parser_sql/sql.g4 by ANTLR 4.8
+# Generated from C:/Users/�������������/Sql_parser/Parser_sql\sql.g4 by ANTLR 4.8
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .sqlParser import sqlParser
@@ -176,6 +176,42 @@ class sqlListener(ParseTreeListener):
 
     # Exit a parse tree produced by sqlParser#insert_stmt.
     def exitInsert_stmt(self, ctx:sqlParser.Insert_stmtContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#drop_index_stmt.
+    def enterDrop_index_stmt(self, ctx:sqlParser.Drop_index_stmtContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#drop_index_stmt.
+    def exitDrop_index_stmt(self, ctx:sqlParser.Drop_index_stmtContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#drop_table_stmt.
+    def enterDrop_table_stmt(self, ctx:sqlParser.Drop_table_stmtContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#drop_table_stmt.
+    def exitDrop_table_stmt(self, ctx:sqlParser.Drop_table_stmtContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#delete_stmt.
+    def enterDelete_stmt(self, ctx:sqlParser.Delete_stmtContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#delete_stmt.
+    def exitDelete_stmt(self, ctx:sqlParser.Delete_stmtContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#delete_stmt_limited.
+    def enterDelete_stmt_limited(self, ctx:sqlParser.Delete_stmt_limitedContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#delete_stmt_limited.
+    def exitDelete_stmt_limited(self, ctx:sqlParser.Delete_stmt_limitedContext):
         pass
 
 

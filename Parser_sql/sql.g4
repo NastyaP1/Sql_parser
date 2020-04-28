@@ -23,6 +23,10 @@ statement_node
     | update_stmt
     | update_stmt_limited
     | insert_stmt
+    | drop_index_stmt
+    | drop_table_stmt
+    | delete_stmt
+    | delete_stmt_limited
   ;
 
 //change index statement
@@ -175,6 +179,31 @@ insert_stmt
    | select_stmt
    | K_DEFAULT K_VALUES
    )
+ ;
+
+// drops an existing index from the database system
+drop_index_stmt
+ : K_DROP K_INDEX ( K_IF K_EXISTS )? ( database_name '.' )? index_name
+ ;
+
+// drop an existing table in a database
+drop_table_stmt
+ : K_DROP K_TABLE ( K_IF K_EXISTS )? ( database_name '.' )? table_name
+ ;
+
+// delete existing records in a table
+delete_stmt
+ : with_clause? K_DELETE K_FROM qualified_table_name
+   ( K_WHERE expr )?
+ ;
+
+// delete existing records in a table with limit clause
+delete_stmt_limited
+ : with_clause? K_DELETE K_FROM qualified_table_name
+   ( K_WHERE expr )?
+   ( ( K_ORDER K_BY ordering_term ( ',' ordering_term )* )?
+     K_LIMIT expr ( ( K_OFFSET | ',' ) expr )?
+   )?
  ;
 
 //indexed table
