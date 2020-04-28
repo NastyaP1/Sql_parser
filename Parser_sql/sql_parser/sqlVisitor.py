@@ -99,6 +99,26 @@ class sqlVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by sqlParser#update_stmt.
+    def visitUpdate_stmt(self, ctx:sqlParser.Update_stmtContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#update_stmt_limited.
+    def visitUpdate_stmt_limited(self, ctx:sqlParser.Update_stmt_limitedContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#insert_stmt.
+    def visitInsert_stmt(self, ctx:sqlParser.Insert_stmtContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by sqlParser#qualified_table_name.
+    def visitQualified_table_name(self, ctx:sqlParser.Qualified_table_nameContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by sqlParser#expr.
     def visitExpr(self, ctx:sqlParser.ExprContext):
         return self.visitChildren(ctx)

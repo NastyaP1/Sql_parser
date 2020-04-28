@@ -170,6 +170,42 @@ class sqlListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by sqlParser#update_stmt.
+    def enterUpdate_stmt(self, ctx:sqlParser.Update_stmtContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#update_stmt.
+    def exitUpdate_stmt(self, ctx:sqlParser.Update_stmtContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#update_stmt_limited.
+    def enterUpdate_stmt_limited(self, ctx:sqlParser.Update_stmt_limitedContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#update_stmt_limited.
+    def exitUpdate_stmt_limited(self, ctx:sqlParser.Update_stmt_limitedContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#insert_stmt.
+    def enterInsert_stmt(self, ctx:sqlParser.Insert_stmtContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#insert_stmt.
+    def exitInsert_stmt(self, ctx:sqlParser.Insert_stmtContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#qualified_table_name.
+    def enterQualified_table_name(self, ctx:sqlParser.Qualified_table_nameContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#qualified_table_name.
+    def exitQualified_table_name(self, ctx:sqlParser.Qualified_table_nameContext):
+        pass
+
+
     # Enter a parse tree produced by sqlParser#expr.
     def enterExpr(self, ctx:sqlParser.ExprContext):
         pass

@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 grammar sql;
 
 root
@@ -18,15 +15,12 @@ statement_node
     | simple_select_stmt
     | select_stmt
     | vacuum_stmt
-<<<<<<< HEAD
     | create_index_stmt
     | create_table_stmt
     | reindex_stmt
-=======
     | update_stmt
     | update_stmt_limited
     | insert_stmt
->>>>>>> origin/master
   ;
 
 reindex_stmt
