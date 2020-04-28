@@ -1,6 +1,6 @@
 import sys
 
-import astpretty
+import astpretty   # Library for building abstract syntax trees from antlr parsers
 from antlr4 import FileStream
 from antlr4.tree import Trees
 

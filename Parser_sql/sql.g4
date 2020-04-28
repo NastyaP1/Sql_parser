@@ -125,7 +125,7 @@ simple_select_stmt
  ;
 
 //select statement
-//wider interpretationof select statement
+//wider interpretation of select statement
 select_stmt
  : with_clause?
    select_or_values ( compound_operator select_or_values )*

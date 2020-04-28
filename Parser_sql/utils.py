@@ -1,3 +1,5 @@
+# This is for reading requests from sql file
+
 def are_dicts_equal(d1, d2, ignore_keys):
     ignored = set(ignore_keys)
     for k1, v1 in d1.items():

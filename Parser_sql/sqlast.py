@@ -1,5 +1,6 @@
 import astpretty
 
+# This package allows to use ANTLR grammars and use the parser output to generate an abstract syntax tree (AST).
 from antlr_ast.ast import (
     AliasNode,
     BaseNode as AstNode,  # used in other tests
@@ -24,22 +25,27 @@ class Grammar:
     def Parser(arg):
         return sqlParser(arg)
 
-
+# node for full query node
 class RootQueryNode(AliasNode):
     _fields_spec = ['queries']
 
+# node for concrete query node
 class QueryNode(AliasNode):
     _fields_spec = ['query_statements']
 
+# node for select statement with smaller chunks
 class FactoredStatementNode(AliasNode):
     _fields_spec = ['select_parts', 'operators']
 
+# node for general select statement
 class SelectNode(AliasNode):
     _fields_spec = ['columns', 'tables', 'where', 'group_by', 'having']
 
+# node for expressions
 class ExprNode(AliasNode):
     _fields_spec = ['database_name', 'table_name', 'column_name', 'select_stmt', 'expr', 'literal_value']
 
+# defines functions that will be called when visiting a node that matches the grammar
 class Transformer(BaseNodeTransformer):
     def visit_Expr(self, node):
         return ExprNode.from_spec(node)
