@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 grammar sql;
 
 root
@@ -15,9 +18,15 @@ statement_node
     | simple_select_stmt
     | select_stmt
     | vacuum_stmt
+<<<<<<< HEAD
     | create_index_stmt
     | create_table_stmt
     | reindex_stmt
+=======
+    | update_stmt
+    | update_stmt_limited
+    | insert_stmt
+>>>>>>> origin/master
   ;
 
 reindex_stmt
@@ -128,6 +137,47 @@ select_or_values
 
 vacuum_stmt
  : K_VACUUM
+ ;
+
+update_stmt //
+ : with_clause? K_UPDATE ( K_OR K_ROLLBACK
+                         | K_OR K_ABORT
+                         | K_OR K_REPLACE
+                         | K_OR K_FAIL
+                         | K_OR K_IGNORE )? qualified_table_name
+   K_SET column_name '=' expr ( ',' column_name '=' expr )* ( K_WHERE expr )?
+ ;
+
+update_stmt_limited
+ : with_clause? K_UPDATE ( K_OR K_ROLLBACK
+                         | K_OR K_ABORT
+                         | K_OR K_REPLACE
+                         | K_OR K_FAIL
+                         | K_OR K_IGNORE )? qualified_table_name
+   K_SET column_name '=' expr ( ',' column_name '=' expr )* ( K_WHERE expr )?
+   ( ( K_ORDER K_BY ordering_term ( ',' ordering_term )* )?
+     K_LIMIT expr ( ( K_OFFSET | ',' ) expr )?
+   )?
+ ;
+
+insert_stmt
+ : with_clause? ( K_INSERT
+                | K_REPLACE
+                | K_INSERT K_OR K_REPLACE
+                | K_INSERT K_OR K_ROLLBACK
+                | K_INSERT K_OR K_ABORT
+                | K_INSERT K_OR K_FAIL
+                | K_INSERT K_OR K_IGNORE ) K_INTO
+   ( database_name '.' )? table_name ( '(' column_name ( ',' column_name )* ')' )?
+   ( K_VALUES '(' expr ( ',' expr )* ')' ( ',' '(' expr ( ',' expr )* ')' )*
+   | select_stmt
+   | K_DEFAULT K_VALUES
+   )
+ ;
+
+qualified_table_name //
+ : ( database_name '.' )? table_name ( K_INDEXED K_BY index_name
+                                     | K_NOT K_INDEXED )?
  ;
 
 expr
@@ -438,6 +488,7 @@ any_name
  | STRING_LITERAL
  | '(' any_name ')'
  ;
+
 
 SCOL : ';';
 DOT : '.';

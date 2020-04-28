@@ -40,7 +40,7 @@ class SelectNode(AliasNode):
     _fields_spec = ['columns', 'tables', 'where', 'group_by', 'having']
 
 class ExprNode(AliasNode):
-    _fields_spec = ['database_name', 'table_name', 'column_name', 'select_stmt']
+    _fields_spec = ['database_name', 'table_name', 'column_name', 'select_stmt', 'expr', 'literal_value']
 
 class Transformer(BaseNodeTransformer):
     def visit_Expr(self, node):
