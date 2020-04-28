@@ -1,33 +1,4 @@
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014 by Bart Kiers
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- *
- * Project      : sqlite-parser; an ANTLR4 grammar for SQLite
- *                https://github.com/bkiers/sqlite-parser
- * Developed by : Bart Kiers, bart@big-o.nl
- */
+
 grammar sql;
 
 root
@@ -39,13 +10,84 @@ query_statements_list
  ;
 
 statement_node
- : compound_select_stmt       #compound_select
-    | factored_select_stmt    #factored_select
-    | simple_select_stmt      #simple_select
-    | select_stmt             #general_select
-    | vacuum_stmt             #vacuum_statement
+ : compound_select_stmt
+    | factored_select_stmt
+    | simple_select_stmt
+    | select_stmt
+    | vacuum_stmt
+    | create_index_stmt
+    | create_table_stmt
+    | reindex_stmt
   ;
 
+reindex_stmt
+ : K_REINDEX ( collation_name
+             | ( database_name '.' )? ( table_name | index_name )
+             )?
+ ;
+
+
+create_index_stmt
+ : K_CREATE K_UNIQUE? K_INDEX ( K_IF K_NOT K_EXISTS )?
+   ( database_name '.' )? index_name K_ON table_name '(' indexed_column ( ',' indexed_column )* ')'
+   ( K_WHERE expr )?
+ ;
+
+create_table_stmt
+ : K_CREATE ( K_TEMP | K_TEMPORARY )? K_TABLE ( K_IF K_NOT K_EXISTS )?
+   ( database_name '.' )? table_name
+   ( '(' column_def ( ',' column_def )*? ( ',' table_constraint )* ')' ( K_WITHOUT IDENTIFIER )?
+   | K_AS select_stmt
+   )
+ ;
+
+
+column_constraint
+ : ( K_CONSTRAINT name )?
+   ( K_PRIMARY K_KEY ( K_ASC | K_DESC )? conflict_clause K_AUTOINCREMENT?
+   | K_NOT? K_NULL conflict_clause
+   | K_UNIQUE conflict_clause
+   | K_CHECK '(' expr ')'
+   | K_DEFAULT (signed_number | literal_value | '(' expr ')')
+   | K_COLLATE collation_name
+   | foreign_key_clause
+   )
+ ;
+
+foreign_key_clause
+ : K_REFERENCES foreign_table ( '(' column_name ( ',' column_name )* ')' )?
+   ( ( K_ON ( K_DELETE | K_UPDATE ) ( K_SET K_NULL
+                                    | K_SET K_DEFAULT
+                                    | K_CASCADE
+                                    | K_RESTRICT
+                                    | K_NO K_ACTION )
+     | K_MATCH name
+     )
+   )*
+   ( K_NOT? K_DEFERRABLE ( K_INITIALLY K_DEFERRED | K_INITIALLY K_IMMEDIATE )? )?
+ ;
+
+table_constraint
+ : ( K_CONSTRAINT name )?
+   ( ( K_PRIMARY K_KEY | K_UNIQUE ) '(' indexed_column ( ',' indexed_column )* ')' conflict_clause
+   | K_CHECK '(' expr ')'
+   | K_FOREIGN K_KEY '(' column_name ( ',' column_name )* ')' foreign_key_clause
+   )
+ ;
+
+
+column_def
+ : column_name type_name? column_constraint*
+ ;
+
+type_name
+ : name+? ( '(' signed_number ')'
+         | '(' signed_number ',' signed_number ')' )?
+ ;
+
+indexed_column
+ : column_name ( K_COLLATE collation_name )? ( K_ASC | K_DESC )?
+ ;
 
 compound_select_stmt
  : with_clause?
@@ -170,11 +212,26 @@ select_core
 // | K_VALUES '(' values+=expr ( ',' expr )* ')' ( ',' '(' expr ( ',' expr )* ')' )*
  ;
 
+
+conflict_clause
+ : ( K_ON K_CONFLICT ( K_ROLLBACK
+                     | K_ABORT
+                     | K_FAIL
+                     | K_IGNORE
+                     | K_REPLACE
+                     )
+   )?
+ ;
+
 compound_operator
  : K_UNION
  | K_UNION K_ALL
  | K_INTERSECT
  | K_EXCEPT
+ ;
+
+foreign_table
+ : any_name
  ;
 
 signed_number

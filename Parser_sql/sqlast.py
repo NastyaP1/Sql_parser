@@ -11,8 +11,8 @@ from antlr_ast.ast import (
 from antlr_ast.inputstream import CaseTransformInputStream
 from antlr_ast.marshalling import AstEncoder, get_decoder
 
-from sql_parser.sqlParser import sqlParser
-from sql_parser.sqlLexer import sqlLexer
+from Parser_sql.sql_parser.sqlParser import sqlParser
+from Parser_sql.sql_parser.sqlLexer import sqlLexer
 
 
 class Grammar:

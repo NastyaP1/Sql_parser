@@ -5,8 +5,8 @@ from antlr4 import FileStream
 from antlr4.tree import Trees
 
 from sqlast import parse
-from sql_parser.sqlLexer import sqlLexer
-from sql_parser.sqlParser import sqlParser, CommonTokenStream
+from Parser_sql.sql_parser.sqlLexer import sqlLexer
+from Parser_sql.sql_parser.sqlParser import sqlParser, CommonTokenStream
 from utils import *
 
 
